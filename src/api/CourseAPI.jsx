@@ -7,8 +7,17 @@ const getCourses = () => {
         .then(response => response.data)
         .catch(error => {
             console.error('Error fetching courses:', error);
-            throw error; // You can handle the error as per your application's requirements
+            throw error;
         });
 };
 
-export default getCourses;
+const postCourse = (courseData) => {
+    return axios.post(`${API_URL}/courses`, courseData)
+        .then(response => response.data)
+        .catch(error => {
+            console.error('Error creating course:', error);
+            throw error;
+        });
+};
+
+export { getCourses, postCourse };

@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import TimeTable from './timetable/TimeTable'
 import CourseList from './courselist/CourseList';
-import getCourses from './api/CourseAPI';
+import { getCourses } from './api/CourseAPI';
+import CourseForm from './courseform/CourseForm';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
     <>
       <TimeTable coursesData={courses} />
       <CourseList coursesData={courses} />
+      <CourseForm />
     </>
   )
 }
