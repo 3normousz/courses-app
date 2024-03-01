@@ -52,6 +52,27 @@ export default function TimeTable(coursesData) {
 
     const schedule = days.map(day => ({ day, slots: {} }));
 
+    const getCourseColSpanAndSlots = (course) => {
+        const courseTimes = parseCourseTime(course.time);
+        // Create an object to store colSpan for each day
+        const colSpans = {};
+        // Create an object to store slots occupied by this course for each day
+        const occupiedSlots = {};
+
+        courseTimes.forEach(({ day, slot }) => {
+            if (!colSpans[day]) {
+                colSpans[day] = 1;
+                occupiedSlots[day] = [];
+            } else {
+                colSpans[day]++;
+            }
+            occupiedSlots[day].push(slot);
+        });
+
+        return { colSpans, occupiedSlots };
+    };
+
+
     if (Array.isArray(coursesData)) {
         coursesData.forEach(course => {
             parseCourseTime(course.time).forEach(({ day, slot }) => {
@@ -66,32 +87,62 @@ export default function TimeTable(coursesData) {
         });
     }
 
+    const getCourseColor = (courseData) => {
+        console.log(courseData)
+
+    }
     return (
         <>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        {days.map(day => <th key={day}>{day}</th>)}
-                    </tr>
-                </thead>
-                <tbody>
-                    {Object.keys(timeSlots).map(slot => (
-                        <tr key={slot}>
-                            <td>{timeSlots[slot]}</td>
-                            {days.map(day => (
-                                <td key={day}>
-                                    {schedule.find(d => d.day === day).slots[slot]?.map(course => (
-                                        <div key={course.courseId}>
-                                            <strong>{course.courseTitle}</strong><br />
-                                        </div>
-                                    )) || ''}
-                                </td>
+            <div className="flex items-center justify-center">
+                <div className="max-w-full overflow-y-auto">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                {days.map(day => <th key={day} className="w-80">{day}</th>)}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Object.keys(timeSlots).map(slot => (
+                                <tr key={slot}>
+                                    <td className="text-center">{timeSlots[slot]}</td>
+                                    {days.map(day => {
+                                        const daySchedule = schedule.find(d => d.day === day);
+                                        const coursesForSlot = daySchedule.slots[slot];
+
+                                        if (coursesForSlot && coursesForSlot.length > 0) {
+                                            const course = coursesForSlot[0];
+                                            const { colSpans, occupiedSlots } = getCourseColSpanAndSlots(course);
+
+                                            if (occupiedSlots[day] && occupiedSlots[day].includes(slot) && occupiedSlots[day][0] === slot) {
+                                                // Apply the class to the td element directly
+                                                return (
+                                                    <td key={day} style={{ backgroundColor: course.color }} >
+                                                        < div key={course.courseId} >
+                                                            <strong>{course.courseTitle}</strong>
+                                                        </div>
+                                                    </td>
+                                                );
+                                            } else if (occupiedSlots[day] && !occupiedSlots[day].includes(slot)) {
+                                                // This slot is not occupied by the course, render empty cell
+                                                return <td key={day}>&nbsp;</td>;
+                                            } else {
+                                                // The slot is occupied by a multi-slot course, do not render
+                                                // Add non-breaking space and background class to the td element
+                                                return <td key={day} style={{ backgroundColor: course.color }}>&nbsp;</td>;
+                                            }
+                                        }
+
+                                        // If no course for this slot, render empty cell
+                                        // Add non-breaking space and background class to the td element
+                                        return <td key={day}>&nbsp;</td>;
+                                    })}
+                                </tr>
                             ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                        </tbody >
+                    </table >
+                </div>
+            </div>
         </>
     )
 }

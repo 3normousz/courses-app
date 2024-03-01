@@ -10,6 +10,8 @@ function CourseForm() {
     const [professorEmail, setProfessorEmail] = useState('');
     const [time, setTime] = useState('');
 
+    const [color, setColor] = useState(null);
+
     const openModal = () => {
         setModalOpen(true);
         document.body.style.overflow = 'hidden';
@@ -38,6 +40,7 @@ function CourseForm() {
         setProfessor('');
         setProfessorEmail('');
         setTime('');
+        setColor(null);
     }
 
     const handleSubmit = () => {
@@ -48,6 +51,7 @@ function CourseForm() {
             professor,
             professorEmail,
             time,
+            color,
         };
 
         console.log(courseData);
@@ -103,6 +107,9 @@ function CourseForm() {
                                     required
                                     onChange={(e) => handleInputChange(e, setTime)}
                                 />
+                            </div>
+                            <div>
+                                <input type="color" value={color} onChange={e => setColor(e.target.value)} />
                             </div>
                             <div className="p-3 flex items-center justify-start">
                                 <button type="submit" className="text-sm text-white bg-blue-500 rounded-md px-4 py-2">Add</button>
