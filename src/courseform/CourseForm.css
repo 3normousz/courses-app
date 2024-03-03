@@ -1,0 +1,40 @@
+.content {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    /* Allows items to wrap within the container */
+}
+
+.content_item {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    position: relative;
+    /* This is necessary for absolute positioning of children */
+    display: flex;
+    /* Makes it easier to center content */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
+    transition: transform 0.4s;
+    /* Transition for hover effect */
+}
+
+.content_item:hover {
+    transform: scale(1.4);
+    /* Enlarge item on hover */
+}
+
+.selected::after {
+    content: "✓";
+    color: white;
+    /* Line height and justify-self are not necessary because of flexbox centering */
+    position: absolute;
+    font-size: 14px;
+    /* Adjust as necessary to fit inside the circle */
+    /* No need for line-height for centering with flexbox */
+}

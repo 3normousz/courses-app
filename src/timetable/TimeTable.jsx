@@ -16,7 +16,7 @@ export default function TimeTable(coursesData) {
 
     console.log(coursesData);
 
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
     const timeSlots = {
         '1': '8.00 - 8.50',
         '2': '9.00 - 9.50',
@@ -39,11 +39,11 @@ export default function TimeTable(coursesData) {
             const slot = match.substring(1);
             let day;
             switch (dayCode) {
-                case 'M': day = 'Monday'; break;
-                case 'T': day = 'Tuesday'; break;
-                case 'W': day = 'Wednesday'; break;
-                case 'R': day = 'Thursday'; break;
-                case 'F': day = 'Friday'; break;
+                case 'M': day = 'Mon'; break;
+                case 'T': day = 'Tue'; break;
+                case 'W': day = 'Wed'; break;
+                case 'R': day = 'Thu'; break;
+                case 'F': day = 'Fri'; break;
                 default: day = '';
             }
             return { day, slot };
@@ -93,19 +93,19 @@ export default function TimeTable(coursesData) {
     }
     return (
         <>
-            <div className="flex items-center justify-center">
-                <div className="max-w-full overflow-y-auto">
+            <div className="flex items-center justify-center text-[0.75rem]">
+                <div className="overflow-y-auto">
                     <table>
                         <thead>
                             <tr>
-                                <th>Time</th>
-                                {days.map(day => <th key={day} className="w-80">{day}</th>)}
+                                <th className="bg-neutral-50 border-2 border-stone-300">Time</th>
+                                {days.map(day => <th key={day} className="bg-neutral-50 border-2 border-stone-300 ">{day}</th>)}
                             </tr>
                         </thead>
                         <tbody>
                             {Object.keys(timeSlots).map(slot => (
                                 <tr key={slot}>
-                                    <td className="text-center">{timeSlots[slot]}</td>
+                                    <td className="text-center bg-neutral-50 border-2 border-stone-300 ">{timeSlots[slot]}</td>
                                     {days.map(day => {
                                         const daySchedule = schedule.find(d => d.day === day);
                                         const coursesForSlot = daySchedule.slots[slot];
@@ -117,8 +117,8 @@ export default function TimeTable(coursesData) {
                                             if (occupiedSlots[day] && occupiedSlots[day].includes(slot) && occupiedSlots[day][0] === slot) {
                                                 // Apply the class to the td element directly
                                                 return (
-                                                    <td key={day} style={{ backgroundColor: course.color }} >
-                                                        < div key={course.courseId} >
+                                                    <td key={day} className='border-0' style={{ backgroundColor: course.color }} >
+                                                        <div key={course.courseId}>
                                                             <strong>{course.courseTitle}</strong>
                                                         </div>
                                                     </td>

@@ -21,9 +21,15 @@ function App() {
 
   return (
     <>
-      <TimeTable coursesData={courses} />
-      <CourseList coursesData={courses} />
-      <CourseForm />
+      <div className='montserrat'>
+        <div className='pt-6 px-6 z-0'>
+          <TimeTable coursesData={courses} />
+        </div>
+        <CourseForm />
+        <div className='pt-6 px-6 z-0'>
+          <CourseList coursesData={courses} />
+        </div>
+      </div>
     </>
   )
 }
