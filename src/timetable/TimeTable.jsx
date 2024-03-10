@@ -87,25 +87,22 @@ export default function TimeTable(coursesData) {
         });
     }
 
-    const getCourseColor = (courseData) => {
-        console.log(courseData)
-
-    }
     return (
         <>
             <div className="flex items-center justify-center text-[0.75rem]">
                 <div className="overflow-y-auto">
+                    <h1 className="text-2xl font-bold pb-3">Courses Table</h1>
                     <table>
                         <thead>
                             <tr>
-                                <th className="bg-neutral-50 border-2 border-stone-300">Time</th>
-                                {days.map(day => <th key={day} className="bg-neutral-50 border-2 border-stone-300 ">{day}</th>)}
+                                <th className="bg-neutral-50 border-2 border-stone-300">Time \ Day</th>
+                                {days.map(day => <th key={day} className="bg-neutral-50 border-2 border-stone-300 h-10">{day}</th>)}
                             </tr>
                         </thead>
                         <tbody>
                             {Object.keys(timeSlots).map(slot => (
-                                <tr key={slot}>
-                                    <td className="text-center bg-neutral-50 border-2 border-stone-300 ">{timeSlots[slot]}</td>
+                                <tr key={slot} className="h-7">
+                                    <td className="text-center bg-neutral-50 border-2 border-stone-300">{timeSlots[slot]}</td>
                                     {days.map(day => {
                                         const daySchedule = schedule.find(d => d.day === day);
                                         const coursesForSlot = daySchedule.slots[slot];

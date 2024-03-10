@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { postCourse } from '../api/CourseAPI';
 import './CourseForm.css'
 
 function CourseForm() {
@@ -57,15 +56,6 @@ function CourseForm() {
 
         console.log(courseData);
 
-        postCourse(courseData)
-            .then(response => {
-                console.log('Course added successfully:', response);
-                handleResetValue();
-            })
-            .catch(error => {
-                console.error('Error in submitting course:', error);
-            });
-
         closeModal();
     };
 
@@ -90,11 +80,15 @@ function CourseForm() {
     return (
         <>
             <div className=''>
-                <p>Add a New Course</p>
-                <div className="flex items-center justify-center">
-                    <button onClick={openModal} className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300">
-                        Add
-                    </button>
+                <div className='px-6 pt-6'>
+                    <div className='text-xl font-semibold'>
+                        <p>Add a New Course</p>
+                    </div>
+                    <div className="flex items-center justify-center pt-6">
+                        <button onClick={openModal} className="rounded-lg px-4 py-2 bg-blue-500 text-blue-100 hover:bg-blue-600 duration-300">
+                            Add
+                        </button>
+                    </div>
                 </div>
                 {isModalOpen && (
                     <div id="modal" className="items-center justify-center h-screen w-screen fixed top-0 bg-black bg-opacity-60 flex z-10 px-4" onClick={handleClickOutside}>
