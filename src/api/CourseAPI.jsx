@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080';
+const API_URL = 'https://courseapi-hwru.onrender.com';
 
 const login = (username, password) => {
     return axios.post(`${API_URL}/auth/login`, { username, password }, {
