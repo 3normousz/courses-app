@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { postCourse } from '../api/CourseAPI';
 import './CourseForm.css'
 
-function CourseForm() {
+function CourseForm({ onCoursesUpdated }) {
     const [isModalOpen, setModalOpen] = useState(false);
     const [courseTitle, setCourseTitle] = useState('');
     const [courseId, setCourseId] = useState('');
@@ -54,7 +55,15 @@ function CourseForm() {
             color,
         };
 
-        console.log(courseData);
+        postCourse(courseData)
+            .then(response => {
+                console.log('Course added successfully:', response);
+                handleResetValue();
+                onCoursesUpdated();
+            })
+            .catch(error => {
+                console.error('Error in submitting course:', error);
+            });
 
         closeModal();
     };
@@ -74,8 +83,6 @@ function CourseForm() {
         "#9e9e9e", // gray
         "#607d8b", // blue gray
     ];
-
-    console.log("setColor", color);
 
     return (
         <>

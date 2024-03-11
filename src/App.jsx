@@ -13,36 +13,33 @@ function App() {
   const [courses, setCourses] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  const fetchCourses = async () => {
+    try {
+      const response = await getCourses();
+      setCourses(response);
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    }
+  };
+
   useEffect(() => {
-    // Attempt to verify token on app initialization
     const verifyToken = async () => {
       const token = localStorage.getItem('userToken');
       if (token) {
-        // Here you'd typically verify the token's validity with your backend
-        // For simplicity, we'll assume the presence of the token implies valid authentication
-        // Adjust this logic based on your application's needs
+        // Ensure this doesn't inadvertently cause frequent state updates
         setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
       }
     };
 
     verifyToken();
 
-    if (!isAuthenticated) {
-      return;
+    // Check if isAuthenticated is true before fetching courses
+    if (isAuthenticated) {
+      fetchCourses();
     }
-
-    const fetchCourses = async () => {
-      try {
-        const response = await getCourses();
-        console.log(response);
-        setCourses(response);
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
-
-    fetchCourses();
-  }, [isAuthenticated]);
+  }, [isAuthenticated]); // Depends only on isAuthenticated
 
 
   return (
@@ -58,7 +55,7 @@ function App() {
                   <UserAccount setIsAuthenticated={setIsAuthenticated} />
                   <TimeTable coursesData={courses} />
                 </div>
-                <CourseForm />
+                <CourseForm onCoursesUpdated={fetchCourses} />
                 <div className='pt-6 px-6 z-0'>
                   <CourseList coursesData={courses} />
                 </div>

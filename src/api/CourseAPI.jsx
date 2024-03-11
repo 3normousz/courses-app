@@ -45,5 +45,26 @@ const getCourses = () => {
         });
 };
 
+const postCourse = async (course) => {
+    const userToken = localStorage.getItem('userToken');
+    if (!userToken) {
+        return Promise.reject(new Error('User is not logged in'));
+    }
 
-export { login, getCourses };
+    // Return the axios promise chain directly
+    return axios.post(`${API_URL}/my-courses`, course, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`,
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(response => {
+            return response.data; // This ensures that getCourses() returns a promise that resolves to response.data
+        })
+        .catch(error => {
+            console.error('Error posting courses:', error);
+            throw error; // This ensures errors are propagated up the promise chain
+        });
+};
+
+export { login, getCourses, postCourse };
