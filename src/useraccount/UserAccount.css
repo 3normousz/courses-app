@@ -1,0 +1,61 @@
+#user-min {
+    background: #f2f1ef;
+    width: 200px;
+    height: 42px;
+    color: rgba(0, 0, 0, .5);
+    position: relative;
+}
+
+#user-min:after {
+    content: '';
+    display: block;
+    background: #f79f21 url(https://dl.dropboxusercontent.com/u/36962971/nodelete/flat-mini-user-profile/menu.png) 50% no-repeat;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 42px;
+    width: 42px;
+}
+
+#user-min img {
+    margin: 5px 0 4px 7px;
+    float: left;
+}
+
+#user-min span {
+    display: block;
+    height: 42px;
+    line-height: 42px;
+    margin-left: 14px;
+    float: left;
+}
+
+#user-min ul {
+    clear: both;
+    display: none;
+}
+
+#user-min li {
+    list-style: none;
+    display: block;
+    height: 42px;
+    width: 200px;
+    padding-left: 44px;
+    text-decoration: none;
+    line-height: 42px;
+    color: rgba(0, 0, 0, .5);
+    background-color: #f2f1ef;
+    border-left: solid 6px transparent;
+}
+
+#user-min:hover {
+    cursor: pointer;
+}
+
+#user-min li:hover {
+    border-left: solid 6px #e8a33c;
+}
+
+#user-min:hover ul {
+    display: block;
+}
