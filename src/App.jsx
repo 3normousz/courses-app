@@ -4,6 +4,7 @@ import TimeTable from './timetable/TimeTable';
 import CourseList from './courselist/CourseList';
 import CourseForm from './courseform/CourseForm';
 import LoginForm from './auth/LoginForm';
+import SignupForm from './auth/SignupForm';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import RequireAuth from './auth/PrivateRoutes';
 import { getCourses } from './api/CourseAPI';
@@ -46,6 +47,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginForm onLogin={() => setIsAuthenticated(true)} />} />
+        <Route path="/signup" element={<SignupForm onRegister={() => setIsAuthenticated(true)} />} />
         <Route
           path='/my-courses'
           element={
@@ -64,7 +66,7 @@ function App() {
           }
         />
         <Route
-          path="*"
+          path="/"
           element={<Navigate to={isAuthenticated ? "/my-courses" : "/login"} replace />}
         />
       </Routes>
