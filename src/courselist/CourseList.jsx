@@ -1,6 +1,8 @@
+import { deleteCourse } from '../api/CourseAPI';
 import './CourseList.css'
+import DeleteIcon from '@mui/icons-material/Delete';
 
-function CourseList(coursesData) {
+function CourseList({ coursesData, onCoursesUpdated }) {
 
 
     if (!Array.isArray(coursesData)) {
@@ -24,6 +26,7 @@ function CourseList(coursesData) {
     };
 
     let transformedCourses = coursesData.map(course => ({
+        id: course.id,
         title: course.courseTitle,
         time: course.time,
         sortableTime: convertTimeToSortableFormat(course.time)
@@ -41,6 +44,23 @@ function CourseList(coursesData) {
         return a.sortableTime.length - b.sortableTime.length;
     });
 
+    const handleDelete = async (courseId, event) => {
+        event.preventDefault();
+        try {
+            const token = localStorage.getItem('userToken');
+            if (!token) {
+                console.error('No user token found');
+                return;
+            }
+            const response = await deleteCourse(courseId, token);
+            console.log(response);
+            onCoursesUpdated();
+        } catch (error) {
+            console.error('Delete course failed', error);
+        }
+    };
+
+
     return (
         <>
             {transformedCourses.map((course, index) => (
@@ -49,7 +69,10 @@ function CourseList(coursesData) {
                         <div className="card m-2 cursor-pointer border border-gray-400 rounded-lg hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200">
                             <div className="m-3">
                                 <h2 className="text-lg mb-2">{course.title}
-                                    <span className="text-sm text-teal-800 font-mono bg-teal-100 inline rounded-full px-2 align-top float-right animate-pulse">Tag</span></h2>
+                                    <span className="text-sm inline rounded-full px-2 align-top float-right" onClick={(event) => handleDelete(course.id, event)}>
+                                        <DeleteIcon />
+                                    </span>
+                                </h2>
                                 <p className="font-light font-mono text-sm text-gray-700 hover:text-gray-900 transition-all duration-200">{course.time}</p>
                             </div>
                         </div>

@@ -13,6 +13,7 @@ import UserAccount from './useraccount/UserAccount';
 function App() {
   const [courses, setCourses] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [name, setName] = useState('');
 
   const fetchCourses = async () => {
     try {
@@ -27,8 +28,9 @@ function App() {
     const verifyToken = async () => {
       const token = localStorage.getItem('userToken');
       if (token) {
-        // Ensure this doesn't inadvertently cause frequent state updates
         setIsAuthenticated(true);
+        const storedName = localStorage.getItem('userName');
+        if (storedName) setName(storedName);
       } else {
         setIsAuthenticated(false);
       }
@@ -36,17 +38,16 @@ function App() {
 
     verifyToken();
 
-    // Check if isAuthenticated is true before fetching courses
     if (isAuthenticated) {
       fetchCourses();
     }
-  }, [isAuthenticated]); // Depends only on isAuthenticated
+  }, [isAuthenticated]);
 
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginForm onLogin={() => setIsAuthenticated(true)} />} />
+        <Route path="/login" element={<LoginForm onLogin={() => setIsAuthenticated(true)} setName={setName} />} />
         <Route path="/signup" element={<SignupForm onRegister={() => setIsAuthenticated(true)} />} />
         <Route
           path='/my-courses'
@@ -54,12 +55,12 @@ function App() {
             <RequireAuth isAuthenticated={isAuthenticated}>
               <div className='montserrat'>
                 <div className='pt-6 px-6 z-0'>
-                  <UserAccount setIsAuthenticated={setIsAuthenticated} />
+                  <UserAccount setIsAuthenticated={setIsAuthenticated} setCourses={setCourses} name={name} />
                   <TimeTable coursesData={courses} />
                 </div>
                 <CourseForm onCoursesUpdated={fetchCourses} />
                 <div className='pt-6 px-6 z-0'>
-                  <CourseList coursesData={courses} />
+                  <CourseList coursesData={courses} onCoursesUpdated={fetchCourses} />
                 </div>
               </div>
             </RequireAuth>

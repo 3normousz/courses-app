@@ -12,7 +12,7 @@ const login = (username, password) => {
             if (response.data.jwt) {
                 localStorage.setItem('userToken', response.data.jwt);
             }
-            return response.data;
+            return response.data.user.username;
         })
         .catch(error => {
             console.error('Error logging in:', error);
@@ -83,4 +83,25 @@ const postCourse = async (course) => {
         });
 };
 
-export { login, register, getCourses, postCourse };
+const deleteCourse = async (courseId) => {
+    const userToken = localStorage.getItem('userToken');
+    if (!userToken) {
+        return Promise.reject(new Error('User is not logged in'));
+    }
+
+    return axios.delete(`${API_URL}/my-courses/${courseId}`, {
+        headers: {
+            'Authorization': `Bearer ${userToken}`,
+        }
+    })
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            console.error('Error deleting course:', error);
+            throw error;
+        });
+};
+
+
+export { login, register, getCourses, postCourse, deleteCourse };

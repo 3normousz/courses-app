@@ -14,7 +14,6 @@ export default function TimeTable(coursesData) {
         }
     }
 
-    console.log(coursesData);
 
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
     const timeSlots = {

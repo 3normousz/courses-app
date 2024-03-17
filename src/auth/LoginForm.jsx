@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLogin, setName }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -25,6 +25,8 @@ const LoginForm = ({ onLogin }) => {
     try {
       const response = await login(username, password);
       onLogin();
+      setName(response);
+      localStorage.setItem('userName', response);
       navigate("/my-courses");
     } catch (error) {
       console.error('Login failed', error);
