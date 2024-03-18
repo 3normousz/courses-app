@@ -8,9 +8,30 @@
     box-sizing: border-box;
 }
 
-.montserrat {
-    font-family: "Montserrat", sans-serif;
+.poppins {
+    font-family: "Poppins", sans-serif;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+}
+
+.custom-width {
+    width: 100%;
+    box-sizing: border-box;
+    /* Include padding in the width calculation */
+    padding-left: 1rem;
+    /* Apply padding for all screen sizes */
+    padding-right: 1rem;
+    /* Apply padding for all screen sizes */
+}
+
+@media (min-width: 960px) {
+    .custom-width {
+        max-width: 1240px;
+        /* Maximum content width */
+        margin-left: auto;
+        /* Center the content horizontally */
+        margin-right: auto;
+        /* Center the content horizontally */
+    }
 }

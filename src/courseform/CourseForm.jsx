@@ -87,7 +87,7 @@ function CourseForm({ onCoursesUpdated }) {
     return (
         <>
             <div className=''>
-                <div className='px-6 pt-6'>
+                <div className='custom-width'>
                     <div className='text-xl font-semibold'>
                         <p>Add a New Course</p>
                     </div>

@@ -53,14 +53,18 @@ function App() {
           path='/my-courses'
           element={
             <RequireAuth isAuthenticated={isAuthenticated}>
-              <div className='montserrat'>
-                <div className='pt-6 px-6 z-0'>
+              <div className='poppins'>
+                <div className="z-0 custom-width">
                   <UserAccount setIsAuthenticated={setIsAuthenticated} setCourses={setCourses} name={name} />
-                  <TimeTable coursesData={courses} />
+                  <div className='mt-6'>
+                    <TimeTable coursesData={courses} />
+                  </div>
                 </div>
-                <CourseForm onCoursesUpdated={fetchCourses} />
-                <div className='pt-6 px-6 z-0'>
-                  <CourseList coursesData={courses} onCoursesUpdated={fetchCourses} />
+                <div className='mt-6'>
+                  <CourseForm onCoursesUpdated={fetchCourses} />
+                  <div class="z-0 custom-width mt-6">
+                    <CourseList coursesData={courses} onCoursesUpdated={fetchCourses} />
+                  </div>
                 </div>
               </div>
             </RequireAuth>

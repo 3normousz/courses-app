@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UserAccount.css'
 import UserIcon from "../assets/user-circle.svg";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function UserAccount({ setIsAuthenticated, setCourses, name }) {
-
     const navigate = useNavigate();
 
     const logout = () => {
@@ -19,16 +19,15 @@ function UserAccount({ setIsAuthenticated, setCourses, name }) {
     };
 
     return (
-        <>
-            <div id="user-min">
-                <img src={UserIcon} alt="" />
-                <span>{name}</span>
-                <ul>
-                    <li>Settings</li>
-                    <li onClick={handleLogout}>Sign Out</li>
-                </ul>
+        <div className='user-account text-black'>
+            <img src={UserIcon} alt="user icon" className="user-icon" />
+            <h2 className="username-text">{name}</h2>
+            <div className='sign-out-button'>
+                <button onClick={handleLogout}>
+                    <LogoutIcon />
+                </button>
             </div>
-        </>
+        </div>
     );
 }
 
