@@ -27,7 +27,7 @@ const LoginForm = ({ onLogin, setName }) => {
       onLogin();
       setName(response);
       localStorage.setItem('userName', response);
-      navigate("/my-courses");
+      navigate("/schedule");
     } catch (error) {
       console.error('Login failed', error);
     }

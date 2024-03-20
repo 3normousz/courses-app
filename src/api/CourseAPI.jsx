@@ -1,23 +1,23 @@
 import axios from 'axios';
 
-const API_URL = 'https://courseapi-o76a.onrender.com';
+const API_URL = 'http://localhost:8080';
+const NTHU_COURSES_API_URL = 'http://localhost:3000';
 
-const login = (username, password) => {
-    return axios.post(`${API_URL}/auth/login`, { username, password }, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            if (response.data.jwt) {
-                localStorage.setItem('userToken', response.data.jwt);
+const login = async (username, password) => {
+    try {
+        const response = await axios.post(`${API_URL}/auth/login`, { username, password }, {
+            headers: {
+                'Content-Type': 'application/json'
             }
-            return response.data.user.username;
-        })
-        .catch(error => {
-            console.error('Error logging in:', error);
-            throw error;
         });
+        if (response.data.jwt) {
+            localStorage.setItem('userToken', response.data.jwt);
+        }
+        return response.data.user.username;
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
 };
 
 const register = (username, password) => {
@@ -40,26 +40,25 @@ const register = (username, password) => {
         });
 };
 
-const getCourses = () => {
+const getCourses = async () => {
     const userToken = localStorage.getItem('userToken');
     if (!userToken) {
         return Promise.reject(new Error('User is not logged in'));
     }
 
-    return axios.get(`${API_URL}/my-courses`, {
-        headers: {
-            'Authorization': `Bearer ${userToken}`,
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-    })
-        .then(response => {
-            return response.data;
-        })
-        .catch(error => {
-            console.error('Error fetching courses:', error);
-            throw error;
+    try {
+        const response = await axios.get(`${API_URL}/my-courses`, {
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
         });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching courses:', error);
+        throw error;
+    }
 };
 
 const postCourse = async (course) => {
@@ -103,5 +102,30 @@ const deleteCourse = async (courseId) => {
         });
 };
 
+const fetchFilteredCourses = async (filterConditions) => {
+    const userToken = localStorage.getItem('userToken');
+    if (!userToken) {
+        console.error('User is not logged in');
+        return Promise.reject(new Error('User is not logged in'));
+    }
 
-export { login, register, getCourses, postCourse, deleteCourse };
+    const payload = filterConditions || {
+        conditions: [],
+        pagination: {
+            page: 1,
+            limit: 10,
+        },
+    };
+
+    try {
+        const response = await axios.get(`${NTHU_COURSES_API_URL}/courses`, payload, {
+        });
+        console.log('Filtered courses:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching filtered courses:', error);
+        throw error;
+    }
+};
+
+export { login, register, getCourses, postCourse, deleteCourse, fetchFilteredCourses };

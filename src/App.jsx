@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
+
 import TimeTable from './timetable/TimeTable';
 import CourseList from './courselist/CourseList';
-import CourseForm from './courseform/CourseForm';
+import CoursesSearch from './courses/CoursesSearch';
 import LoginForm from './auth/LoginForm';
 import SignupForm from './auth/SignupForm';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+
 import RequireAuth from './auth/PrivateRoutes';
 import { getCourses } from './api/CourseAPI';
 import UserAccount from './useraccount/UserAccount';
@@ -50,22 +52,25 @@ function App() {
         <Route path="/login" element={<LoginForm onLogin={() => setIsAuthenticated(true)} setName={setName} />} />
         <Route path="/signup" element={<SignupForm onRegister={() => setIsAuthenticated(true)} />} />
         <Route
-          path='/my-courses'
+          path='/schedule'
           element={
             <RequireAuth isAuthenticated={isAuthenticated}>
               <div className='poppins'>
-                <div className="z-0 custom-width">
+                <div className="custom-width">
                   <UserAccount setIsAuthenticated={setIsAuthenticated} setCourses={setCourses} name={name} />
-                  <div className='mt-6'>
-                    <TimeTable coursesData={courses} />
-                  </div>
+                  <TimeTable coursesData={courses} />
+                  <CourseList coursesData={courses} onCoursesUpdated={fetchCourses} />
                 </div>
-                <div className='mt-6'>
-                  <CourseForm onCoursesUpdated={fetchCourses} />
-                  <div class="z-0 custom-width mt-6">
-                    <CourseList coursesData={courses} onCoursesUpdated={fetchCourses} />
-                  </div>
-                </div>
+              </div>
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/courses'
+          element={
+            <RequireAuth isAuthenticated={isAuthenticated}>
+              <div className='poppins custom-width'>
+                <CoursesSearch />
               </div>
             </RequireAuth>
           }

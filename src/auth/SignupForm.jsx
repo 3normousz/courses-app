@@ -30,7 +30,7 @@ const SignupForm = ({ onRegister }) => {
             setIsPasswordNotMatched(false);
             const response = await register(username, password);
             onRegister();
-            navigate("/my-courses");
+            navigate("/schedule");
         }
     };
 
