@@ -109,17 +109,24 @@ const fetchFilteredCourses = async (filterConditions) => {
         return Promise.reject(new Error('User is not logged in'));
     }
 
-    const payload = filterConditions || {
-        conditions: [],
-        pagination: {
-            page: 1,
-            limit: 10,
-        },
+    const payload = {
+        conditions: filterConditions.conditions || [],
+        page: filterConditions.pagination.page || 1,
+        limit: filterConditions.pagination?.limit || 10,
     };
 
     try {
-        const response = await axios.get(`${NTHU_COURSES_API_URL}/courses`, payload, {
+        const response = await axios.get(`${NTHU_COURSES_API_URL}/courses`, {
+            params: {
+                conditions: JSON.stringify(payload.conditions),
+                page: filterConditions.pagination.page,
+                limit: filterConditions.pagination.limit,
+            },
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+            },
         });
+
         console.log('Filtered courses:', response.data);
         return response.data;
     } catch (error) {
@@ -127,5 +134,6 @@ const fetchFilteredCourses = async (filterConditions) => {
         throw error;
     }
 };
+
 
 export { login, register, getCourses, postCourse, deleteCourse, fetchFilteredCourses };
