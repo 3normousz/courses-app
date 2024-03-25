@@ -70,6 +70,7 @@ function App() {
           element={
             <RequireAuth isAuthenticated={isAuthenticated}>
               <div className='poppins custom-width'>
+                <UserAccount setIsAuthenticated={setIsAuthenticated} setCourses={setCourses} name={name} />
                 <CoursesSearch />
               </div>
             </RequireAuth>
@@ -77,7 +78,7 @@ function App() {
         />
         <Route
           path="/"
-          element={<Navigate to={isAuthenticated ? "/my-courses" : "/login"} replace />}
+          element={<Navigate to={isAuthenticated ? "/schedule" : "/login"} replace />}
         />
       </Routes>
     </BrowserRouter>

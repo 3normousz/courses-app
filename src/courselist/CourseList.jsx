@@ -25,14 +25,11 @@ function CourseList({ coursesData, onCoursesUpdated }) {
         }, []);
     };
 
-    let transformedCourses = coursesData.map(course => ({
-        id: course.id,
-        title: course.courseTitle,
-        time: course.time,
-        sortableTime: convertTimeToSortableFormat(course.time)
-    }));
+    coursesData.forEach(course => {
+        course.sortableTime = convertTimeToSortableFormat(course.time);
+    });
 
-    transformedCourses.sort((a, b) => {
+    coursesData.sort((a, b) => {
         for (let i = 0; i < Math.min(a.sortableTime.length, b.sortableTime.length); i++) {
             if (a.sortableTime[i].day !== b.sortableTime[i].day) {
                 return a.sortableTime[i].day - b.sortableTime[i].day;
@@ -63,12 +60,12 @@ function CourseList({ coursesData, onCoursesUpdated }) {
 
     return (
         <>
-            {transformedCourses.map((course, index) => (
+            {coursesData.map((course, index) => (
                 <div key={index} className="mt-4 mx-auto">
                     <div className="grid">
                         <div className="card m-2 border border-gray-400 rounded-lg">
                             <div className="m-3">
-                                <h2 className="text-lg mb-2">{course.title}
+                                <h2 className="text-lg mb-2">{course.englishTitle}
                                     <span className="delete-icon-wrapper text-sm inline rounded-full px-2 align-top float-right" onClick={(event) => handleDelete(course.id, event)}>
                                         <DeleteIcon />
                                     </span>

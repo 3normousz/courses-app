@@ -86,6 +86,7 @@ export default function TimeTable(coursesData) {
         });
     }
 
+
     return (
         <>
             <div className="flex items-center justify-center text-[0.75rem]">
@@ -115,7 +116,7 @@ export default function TimeTable(coursesData) {
                                                 return (
                                                     <td key={day} className='border-0' style={{ backgroundColor: course.color }} >
                                                         <div key={course.courseId}>
-                                                            <strong>{course.courseTitle}</strong>
+                                                            <strong>{course.englishTitle}</strong>
                                                         </div>
                                                     </td>
                                                 );
